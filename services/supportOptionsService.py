@@ -11,7 +11,15 @@ def createOrUpdateSupportOption(db: Session, supportOption: schemas.CreateSuppor
     dbBeneficiary = userRepository.getUser(db, userId=supportOption.beneficiaryId)
     if not dbBeneficiary:
         raise NotFoundException(message="beneficiary with such id not fount")
-    return supportOptionRepository.createOrUpdateSupportOption(db, supportOption=supportOption, userId=userId)
+    
+    dbSupportOption = supportOptionRepository.getSupportOption(db, beneficiaryId=supportOption.beneficiaryId, supporterId=userId)
+
+    if dbSupportOption:
+        dbSupportOption.valueInUSD = supportOption.valueInUSD
+        return supportOptionRepository.updateSupportOption(db, dbSupportOption=dbSupportOption)
+    else: 
+        return supportOptionRepository.createSupportOption(db, supportOption=supportOption, userId=userId)
+
 
 def deleteSupportOption(db: Session, beneficiaryId: int, userId: int):
     dbSupporter = userRepository.getUser(db, userId=userId)
@@ -20,7 +28,12 @@ def deleteSupportOption(db: Session, beneficiaryId: int, userId: int):
     dbBeneficiary = userRepository.getUser(db, userId=beneficiaryId)
     if not dbBeneficiary:
         raise NotFoundException(message="beneficiary with such id not fount")
-    return supportOptionRepository.deleteSupportOption(db, beneficiaryId=beneficiaryId, userId=userId)
+
+    dbSupportOption = supportOptionRepository.getSupportOption(db, beneficiaryId=beneficiaryId, supporterId=userId)
+    if dbSupportOption:
+        return supportOptionRepository.deleteSupportOption(db, dbSupportOption=dbSupportOption)
+    else:
+        return False
 
 def getMySupporters(db: Session, userId: int, limit: int, skip: int):
     return supportOptionRepository.getMySupporters(db, userId=userId, limit=limit, skip=skip)

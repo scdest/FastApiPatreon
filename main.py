@@ -9,7 +9,7 @@ from db import models
 from schemas import schemas
 from services import userService, supportOptionsService
 from db.database import SessionLocal, engine
-from exceptions.exception import AlreadyExistsException, NotFoundException, AccessDeniedException
+from exceptions.exception import AlreadyExistsException, NotFoundException
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -36,13 +36,6 @@ def alreadyExistsExceptionHandler(request: Request, exc: AlreadyExistsException)
 def notFoundExceptionHandler(request: Request, exc: NotFoundException):
     return JSONResponse(
         status_code=404,
-        content={'message': exc.message}
-    )
-
-@app.exception_handler(AccessDeniedException)
-def notFoundExceptionHandler(request: Request, exc: AccessDeniedException):
-    return JSONResponse(
-        status_code=403,
         content={'message': exc.message}
     )
 

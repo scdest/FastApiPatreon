@@ -6,6 +6,3 @@ class NotFoundException(BaseException):
     pass
 class AlreadyExistsException(BaseException):
     pass
-
-class AccessDeniedException(BaseException):
-    pass
