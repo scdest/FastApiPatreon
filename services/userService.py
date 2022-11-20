@@ -13,7 +13,7 @@ def createUser(db: Session, user: schemas.UserBase):
 def getUser(db: Session, userId: int):
     dbUser = userRepository.getUser(db, userId=userId)
     if not dbUser:
-        raise NotFoundException(message="user with such id not fount")
+        raise NotFoundException(message="user with such id not found")
     return dbUser
 
     

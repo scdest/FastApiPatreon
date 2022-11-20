@@ -50,5 +50,5 @@ def test_get_user_does_not_exist(getUser: MagicMock):
 
         userService.getUser(db, userId=userId)
     
-    assert exc_info.value.message == "user with such id not fount"
+    assert exc_info.value.message == "user with such id not found"
     getUser.assert_called_once_with(db, userId=userId)
