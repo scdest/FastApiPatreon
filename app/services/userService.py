@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
-from schemas import schemas
-from repositories import userRepository
-from exceptions.exception import AlreadyExistsException, NotFoundException
+from app.schemas import schemas
+from app.repositories import userRepository
+from app.exceptions.exception import AlreadyExistsException, NotFoundException
 
 def createUser(db: Session, user: schemas.UserBase):
     db_user = userRepository.getUserByEmail(db, email=user.email)

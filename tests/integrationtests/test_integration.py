@@ -5,7 +5,7 @@ import pytest
 
 @pytest.fixture(scope='session', autouse=True)
 def client(docker_services):
-    from main import app
+    from app.main import app
 
     client = TestClient(app)
     yield client

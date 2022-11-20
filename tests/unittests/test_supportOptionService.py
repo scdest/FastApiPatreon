@@ -1,12 +1,12 @@
 from unittest.mock import patch, Mock, MagicMock, call
 import pytest
 from sqlalchemy.orm import Session
-from db.models import User, SupportOption
-from exceptions.exception import NotFoundException
-from schemas.schemas import CreateSupportOption
-from services import supportOptionsService
+from app.db.models import User, SupportOption
+from app.exceptions.exception import NotFoundException
+from app.schemas.schemas import CreateSupportOption
+from app.services import supportOptionsService
 
-@patch('repositories.userRepository.getUser')
+@patch('app.repositories.userRepository.getUser')
 def test_createOrUpdateSupportOption_supporter_not_found(getUser: MagicMock):
     with pytest.raises(NotFoundException) as exc_info:
         db = Mock(Session)
@@ -18,7 +18,7 @@ def test_createOrUpdateSupportOption_supporter_not_found(getUser: MagicMock):
     assert exc_info.value.message == "supporter with such id not fount"
     getUser.assert_called_once_with(db, userId=userId)
 
-@patch('repositories.userRepository.getUser')
+@patch('app.repositories.userRepository.getUser')
 def test_createOrUpdateSupportOption_beneficiary_not_found(getUser: MagicMock):
     with pytest.raises(NotFoundException) as exc_info:
         db = Mock(Session)
@@ -34,9 +34,9 @@ def test_createOrUpdateSupportOption_beneficiary_not_found(getUser: MagicMock):
         call(db, userId=supportOption.beneficiaryId)
     ])
 
-@patch('repositories.supportOptionRepository.getSupportOption')
-@patch('repositories.supportOptionRepository.createSupportOption')
-@patch('repositories.supportOptionRepository.updateSupportOption')
+@patch('app.repositories.supportOptionRepository.getSupportOption')
+@patch('app.repositories.supportOptionRepository.createSupportOption')
+@patch('app.repositories.supportOptionRepository.updateSupportOption')
 def test_createOrUpdateSupportOption_create(updateSupportOption: MagicMock, createSupportOption: MagicMock, getSupportOption: MagicMock):
     db = Mock(Session)
 
@@ -49,9 +49,9 @@ def test_createOrUpdateSupportOption_create(updateSupportOption: MagicMock, crea
     createSupportOption.assert_called_once_with(db, supportOption=supportOption, userId=userId)
     updateSupportOption.assert_not_called()
 
-@patch('repositories.supportOptionRepository.getSupportOption')
-@patch('repositories.supportOptionRepository.createSupportOption')
-@patch('repositories.supportOptionRepository.updateSupportOption')
+@patch('app.repositories.supportOptionRepository.getSupportOption')
+@patch('app.repositories.supportOptionRepository.createSupportOption')
+@patch('app.repositories.supportOptionRepository.updateSupportOption')
 def test_createOrUpdateSupportOption_update(updateSupportOption: MagicMock, createSupportOption: MagicMock, getSupportOption: MagicMock):
     db = Mock(Session)
 
@@ -70,8 +70,8 @@ def test_createOrUpdateSupportOption_update(updateSupportOption: MagicMock, crea
     createSupportOption.assert_not_called()
 
 
-@patch('repositories.supportOptionRepository.getSupportOption')
-@patch('repositories.supportOptionRepository.deleteSupportOption')
+@patch('app.repositories.supportOptionRepository.getSupportOption')
+@patch('app.repositories.supportOptionRepository.deleteSupportOption')
 def test_deleteOrUpdateSupportOption(deleteSupportOption: MagicMock, getSupportOption: MagicMock):
     db = Mock(Session)
 
@@ -86,8 +86,8 @@ def test_deleteOrUpdateSupportOption(deleteSupportOption: MagicMock, getSupportO
     deleteSupportOption.assert_called_once_with(db, dbSupportOption=dbSupportOption)
     assert res
 
-@patch('repositories.supportOptionRepository.getSupportOption')
-@patch('repositories.supportOptionRepository.deleteSupportOption')
+@patch('app.repositories.supportOptionRepository.getSupportOption')
+@patch('app.repositories.supportOptionRepository.deleteSupportOption')
 def test_deleteOrUpdateSupportOption_not_exist(deleteSupportOption: MagicMock, getSupportOption: MagicMock):
     db = Mock(Session)
 
@@ -101,7 +101,7 @@ def test_deleteOrUpdateSupportOption_not_exist(deleteSupportOption: MagicMock, g
     deleteSupportOption.assert_not_called()
     assert res == False
 
-@patch('repositories.supportOptionRepository.getMySupporters')
+@patch('app.repositories.supportOptionRepository.getMySupporters')
 def test_getMySupporters(getMySupporters: MagicMock):
     db = Mock(Session)
 
@@ -113,7 +113,7 @@ def test_getMySupporters(getMySupporters: MagicMock):
 
     getMySupporters.assert_called_once_with(db, userId=userId, limit=limit, skip=skip)
 
-@patch('repositories.supportOptionRepository.getMyBeneficiaries')
+@patch('app.repositories.supportOptionRepository.getMyBeneficiaries')
 def test_getMySupporters(getMyBeneficiaries: MagicMock):
     db = Mock(Session)
 

@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
-from schemas import schemas
-from repositories import supportOptionRepository, userRepository
-from exceptions.exception import NotFoundException
+from app.schemas import schemas
+from app.repositories import supportOptionRepository, userRepository
+from app.exceptions.exception import NotFoundException
 
 def createOrUpdateSupportOption(db: Session, supportOption: schemas.CreateSupportOption, userId: int):
     dbSupporter = userRepository.getUser(db, userId=userId)

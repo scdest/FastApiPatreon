@@ -1,4 +1,5 @@
 from pydantic import BaseModel, PositiveInt
+
 class UserBase(BaseModel):
     email: str
     name: str

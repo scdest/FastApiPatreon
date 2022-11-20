@@ -5,11 +5,11 @@ from sqlalchemy.orm import Session
 
 load_dotenv()
 
-from db import models
-from schemas import schemas
-from services import userService, supportOptionsService
-from db.database import SessionLocal, engine
-from exceptions.exception import AlreadyExistsException, NotFoundException
+from app.db import models
+from app.schemas import schemas
+from app.services import userService, supportOptionsService
+from app.db.database import SessionLocal, engine
+from app.exceptions.exception import AlreadyExistsException, NotFoundException
 
 
 models.Base.metadata.create_all(bind=engine)
