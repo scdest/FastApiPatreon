@@ -10,9 +10,19 @@ services:
       POSTGRES_DB: db
     ports:
       - 5432:5432
-
-  adminer:
-    image: adminer
-    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 5
+      start_period: 5s
+  
+  app:
+    build: .
     ports:
-      - 8080:8080
+      - 80:80
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_CONNECTION_STRING: postgresql://postgres:example@db:5432/db
