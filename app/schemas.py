@@ -12,10 +12,10 @@ class User(UserBase):
         orm_mode = True
 
 class CreateSupportOption(BaseModel):
-    valueInUSD: PositiveInt
-    beneficiaryId: int
+    value_in_USD: PositiveInt
+    beneficiary_id: int
 class SupportOption(CreateSupportOption):
-    supporterId: int
+    supporter_id: int
 
     class Config:
         orm_mode = True

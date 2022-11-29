@@ -18,17 +18,17 @@ def test_user_does_not_exist(client: TestClient):
 def test_user_created(client: TestClient):
     response = client.post("/users/", json={'name': 'Karl', 'email': 'test@test.com'})
     assert response.status_code == 200
-    resJson = response.json()
-    assert resJson['name'] == 'Karl'
-    assert resJson['email'] == 'test@test.com'
+    res_json = response.json()
+    assert res_json['name'] == 'Karl'
+    assert res_json['email'] == 'test@test.com'
 
 def test_get_created_user(client: TestClient):
-    createResponse = client.post("/users/", json={'name': 'John', 'email': 'john@test.com'})
+    create_response = client.post("/users/", json={'name': 'John', 'email': 'john@test.com'})
 
-    getResponse = client.get(f"/users/{createResponse.json()['id']}")
+    get_response = client.get(f"/users/{create_response.json()['id']}")
 
-    assert getResponse.status_code == 200
-    getJson = getResponse.json()
+    assert get_response.status_code == 200
+    get_json = get_response.json()
 
-    assert getJson['name'] == 'John'
-    assert getJson['email'] == 'john@test.com'
+    assert get_json['name'] == 'John'
+    assert get_json['email'] == 'john@test.com'
